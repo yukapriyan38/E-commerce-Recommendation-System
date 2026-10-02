@@ -1,0 +1,100 @@
+import { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import API from "../services/api";
+
+function ProductDetails() {
+  const { id } = useParams();
+
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const response = await API.get(`/products/${id}`);
+        setProduct(response.data);
+      } catch (error) {
+        console.error(error);
+        setError("Failed to load product");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProduct();
+  }, [id]);
+
+  if (loading) {
+    return <p>Loading product...</p>;
+  }
+
+  if (error) {
+    return <p className="error">{error}</p>;
+  }
+
+  if (!product) {
+    return <p>Product not found</p>;
+  }
+
+  return (
+    <div className="product-details-container">
+      <div className="product-details-card">
+
+        <div className="product-details-image">
+          <img
+            src={product.image}
+            alt={product.name}
+          />
+        </div>
+
+        <div className="product-details-info">
+          <p className="product-brand">
+            {product.brand}
+          </p>
+
+          <h1>{product.name}</h1>
+
+          <p className="product-category">
+            Category: {product.category}
+          </p>
+
+          <p className="product-price">
+            ₹{product.price}
+          </p>
+
+          <p>
+            ⭐ {product.rating}
+          </p>
+
+          <p className="product-description">
+            {product.description}
+          </p>
+
+          <p>
+            Stock: {product.stock}
+          </p>
+
+          <button
+            className="add-to-cart-button"
+            disabled={product.stock === 0}
+          >
+            {product.stock > 0
+              ? "Add to Cart"
+              : "Out of Stock"}
+          </button>
+
+          <br />
+          <br />
+
+          <Link to="/products">
+            ← Back to Products
+          </Link>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+export default ProductDetails;
