@@ -10,6 +10,10 @@ import ProductDetails from "./pages/ProductDetails";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Navbar from "./components/Navbar";
+import Cart from "./pages/Cart";
+import Checkout from "./pages/Checkout";
+import Orders from "./pages/Orders";
+
 
 function App() {
   return (
@@ -27,6 +31,21 @@ function App() {
         <Route
           path="/products/:id"
           element={<ProductDetails />}
+        />
+
+        <Route
+          path="/cart"
+          element={<Cart />}
+        />
+
+        <Route
+          path="/checkout"
+          element={<Checkout />}
+        />
+
+        <Route
+          path="/orders"
+          element={<Orders />}
         />
 
         <Route

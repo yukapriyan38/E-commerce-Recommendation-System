@@ -24,17 +24,25 @@ function Navbar() {
             Products
           </Link>
 
-          {user ? (
-            <>
-              <span>
-                Hello, {user.name}
-              </span>
+          <Link to="/cart">
+            Cart
+          </Link>
 
-              <button onClick={logout}>
-                Logout
-              </button>
-            </>
-          ) : (
+       {user ? (
+        <>
+          <Link to="/orders">
+            My Orders
+          </Link>
+
+          <span>
+            Hello, {user.name}
+          </span>
+
+          <button onClick={logout}>
+            Logout
+          </button>
+        </>
+        ) : (
             <>
               <Link to="/login">
                 Login

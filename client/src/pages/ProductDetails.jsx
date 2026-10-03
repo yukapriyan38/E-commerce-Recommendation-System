@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 import API from "../services/api";
 
 function ProductDetails() {
   const { id } = useParams();
+  const { addToCart } = useCart();
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -78,10 +80,14 @@ function ProductDetails() {
           <button
             className="add-to-cart-button"
             disabled={product.stock === 0}
-          >
-            {product.stock > 0
-              ? "Add to Cart"
-              : "Out of Stock"}
+            onClick={() => {
+               addToCart(product);
+               alert("Product added to cart");
+              }} 
+           >
+             {product.stock > 0
+             ? "Add to Cart"
+             : "Out of Stock"}
           </button>
 
           <br />
