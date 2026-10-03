@@ -57,33 +57,39 @@ h1 {
 }
 
 .navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
   background: #222;
   color: white;
   padding: 15px 30px;
 }
 
-.navbar-container {
+.navbar-left,
+.navbar-right {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-}
-
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
-}
-
-.nav-links {
-  display: flex;
   gap: 20px;
 }
 
-.nav-links a {
+.navbar a {
   color: white;
 }
 
-.nav-links a:hover {
+.navbar a:hover {
+  color: #ddd;
+}
+
+.navbar button {
+  background: none;
+  border: none;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+
+.navbar button:hover {
   color: #ddd;
 }
 
@@ -137,14 +143,6 @@ h1 {
 .error {
   color: red;
   text-align: center;
-}
-
-.nav-links button {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
 }
 
 .product-details-container {

@@ -13,6 +13,7 @@ import Navbar from "./components/Navbar";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
 import Orders from "./pages/Orders";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 function App() {
@@ -21,7 +22,10 @@ function App() {
       <Navbar />
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route
+          path="/"
+          element={<Home />}
+        />
 
         <Route
           path="/products"
@@ -35,17 +39,29 @@ function App() {
 
         <Route
           path="/cart"
-          element={<Cart />}
+          element={
+            <ProtectedRoute>
+              <Cart />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/checkout"
-          element={<Checkout />}
+          element={
+            <ProtectedRoute>
+              <Checkout />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/orders"
-          element={<Orders />}
+          element={
+            <ProtectedRoute>
+              <Orders />
+            </ProtectedRoute>
+          }
         />
 
         <Route
@@ -58,6 +74,7 @@ function App() {
           element={<Register />}
         />
       </Routes>
+
     </BrowserRouter>
   );
 }

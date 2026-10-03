@@ -7,9 +7,7 @@ import {
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-
   const [user, setUser] = useState(() => {
-
     const savedUser =
       localStorage.getItem("user");
 
@@ -19,7 +17,6 @@ export function AuthProvider({ children }) {
   });
 
   const login = (token, userData) => {
-
     localStorage.setItem(
       "token",
       token
@@ -34,9 +31,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
-
     localStorage.removeItem("token");
-
     localStorage.removeItem("user");
 
     setUser(null);

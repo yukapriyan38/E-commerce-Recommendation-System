@@ -41,7 +41,7 @@ const {
       const token = localStorage.getItem("token");
 
       const orderItems = cartItems.map((item) => ({
-        product: item._id,
+        product: item.product._id,
         name: item.name,
         price: item.price,
         quantity: item.quantity,

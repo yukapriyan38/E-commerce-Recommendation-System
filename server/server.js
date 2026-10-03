@@ -5,10 +5,12 @@ require("dotenv").config({
 });
 
 const connectDB = require("./config/db");
+
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const productRoutes = require("./routes/productRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const cartRoutes = require("./routes/cartRoutes");
 
 
 const app = express();
@@ -25,6 +27,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/cart", cartRoutes);
+
 
 // Test route
 app.get("/", (req, res) => {

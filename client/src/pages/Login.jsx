@@ -2,11 +2,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../services/api";
 import { useAuth } from "../context/AuthContext";
+import { useCart } from "../context/CartContext";
 
 function Login() {
 
   const navigate = useNavigate();
   const { login } = useAuth();
+  const { refreshCart } = useCart();
 
   const [formData, setFormData] = useState({
     email: "",
@@ -42,6 +44,7 @@ function Login() {
       const { token, user } = response.data;
 
       login(token, user);
+      await refreshCart();
 
       alert("Login successful!");
 
