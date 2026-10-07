@@ -1,4 +1,5 @@
 const Product = require("../models/Product");
+const Cart = require("../models/Cart");
 
 // Get all products
 const getProducts = async (req, res) => {
@@ -158,6 +159,11 @@ const deleteProduct = async (req, res) => {
         message: "Product not found"
       });
     }
+
+    await Cart.updateMany(
+      { "items.product": product._id },
+      { $pull: { items: { product: product._id } } }
+    );
 
     res.json({
       message: "Product deleted successfully"

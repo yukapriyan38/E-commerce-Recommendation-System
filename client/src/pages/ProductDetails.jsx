@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import API from "../services/api";
 
 function ProductDetails() {
   const { id } = useParams();
   const { addToCart } = useCart();
+  const { user } = useAuth();
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,6 +18,31 @@ function ProductDetails() {
       try {
         const response = await API.get(`/products/${id}`);
         setProduct(response.data);
+
+        if (user) {
+  try {
+    await API.post(
+      "/interactions",
+      {
+        product: id,
+        type: "view"
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(
+            "token"
+          )}`
+        }
+      }
+    );
+  } 
+  catch (error) {
+    console.error(
+      "Failed to record product view:",
+      error
+    );
+  }
+}
       } catch (error) {
         console.error(error);
         setError("Failed to load product");

@@ -11,6 +11,15 @@ const getCart = async (req, res) => {
         user: req.userId,
         items: []
       });
+    } else {
+      const availableItems = cart.items.filter(
+        (item) => item.product
+      );
+
+      if (availableItems.length !== cart.items.length) {
+        cart.items = availableItems;
+        await cart.save();
+      }
     }
 
     res.json({

@@ -62,6 +62,7 @@ function Products() {
           <option value="Books">Books</option>
           <option value="Beauty">Beauty</option>
           <option value="Home">Home</option>
+          <option value="Sports">Sports</option>
         </select>
 
       </div>
