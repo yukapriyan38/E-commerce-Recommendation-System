@@ -29,6 +29,14 @@ const interactionSchema = new mongoose.Schema(
     searchQuery: {
       type: String,
       default: ""
+    },
+
+    // Used to prevent accidental duplicate
+    // view events
+    dedupeKey: {
+      type: String,
+      unique: true,
+      sparse: true
     }
   },
   {

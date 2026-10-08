@@ -104,18 +104,45 @@ function ProductDetails() {
             Stock: {product.stock}
           </p>
 
-          <button
-            className="add-to-cart-button"
-            disabled={product.stock === 0}
-            onClick={() => {
-               addToCart(product);
-               alert("Product added to cart");
-              }} 
-           >
-             {product.stock > 0
-             ? "Add to Cart"
-             : "Out of Stock"}
-          </button>
+        <button
+  className="add-to-cart-button"
+  disabled={product.stock === 0}
+  onClick={async () => {
+    try {
+      // Add product to the user's MongoDB cart
+      await addToCart(product);
+
+      // Record add-to-cart interaction
+      if (user) {
+        await API.post(
+          "/interactions",
+          {
+            product: product._id,
+            type: "add_to_cart"
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem(
+                "token"
+              )}`
+            }
+          }
+        );
+      }
+
+      alert("Product added to cart");
+    } catch (error) {
+      console.error(
+        "Failed to record add-to-cart interaction:",
+        error
+      );
+    }
+  }}
+>
+  {product.stock > 0
+    ? "Add to Cart"
+    : "Out of Stock"}
+</button>
 
           <br />
           <br />

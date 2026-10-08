@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useCart } from "../context/CartContext";
+import API from "../services/api";
 
 function Cart() {
   const {
@@ -92,16 +93,48 @@ function Cart() {
                   item.quantity}
               </p>
 
-              <button
-                className="remove-button"
-                onClick={() =>
-                  removeFromCart(
-                    item.product._id
-                  )
-                }
-              >
-                Remove
-              </button>
+          <button
+  className="remove-button"
+  onClick={async () => {
+    try {
+      const removed =
+        await removeFromCart(
+          item.product._id
+        );
+
+      if (!removed) {
+        return;
+      }
+
+      const userToken =
+        localStorage.getItem("token");
+
+      if (userToken) {
+        await API.post(
+          "/interactions",
+          {
+            product: item.product._id,
+            type: "remove_from_cart"
+          },
+          {
+            headers: {
+              Authorization:
+                `Bearer ${userToken}`
+            }
+          }
+        );
+      }
+    } catch (error) {
+      console.error(
+        "Failed to record remove-from-cart interaction:",
+        error
+      );
+    }
+  }}
+>
+  Remove
+</button>
+
             </div>
           </div>
         ))}

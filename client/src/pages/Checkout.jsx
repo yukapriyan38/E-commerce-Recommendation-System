@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+
 import { useCart } from "../context/CartContext";
 import API from "../services/api";
 
 function Checkout() {
   const navigate = useNavigate();
 
-const {
-  cartItems,
-  getCartTotal,
-  clearCart
-} = useCart();
+  const {
+    cartItems,
+    getCartTotal,
+    clearCart
+  } = useCart();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -38,15 +39,33 @@ const {
       setLoading(true);
       setError("");
 
-      const token = localStorage.getItem("token");
+      const token =
+        localStorage.getItem("token");
 
-      const orderItems = cartItems.map((item) => ({
-        product: item.product._id,
-        name: item.name,
-        price: item.price,
-        quantity: item.quantity,
-        image: item.image
-      }));
+      if (!token) {
+        setError(
+          "Please login before placing an order."
+        );
+        return;
+      }
+
+      // -----------------------------------------
+      // Prepare order items
+      // -----------------------------------------
+
+      const orderItems = cartItems.map(
+        (item) => ({
+          product: item.product._id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          image: item.image
+        })
+      );
+
+      // -----------------------------------------
+      // Create order
+      // -----------------------------------------
 
       const response = await API.post(
         "/orders",
@@ -58,17 +77,59 @@ const {
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`
+            Authorization:
+              `Bearer ${token}`
           }
         }
       );
 
-      alert("Order placed successfully!");
+      // -----------------------------------------
+      // Record purchase interactions
+      // -----------------------------------------
 
-      clearCart();
+      try {
+        for (const item of cartItems) {
+          await API.post(
+            "/interactions",
+            {
+              product: item.product._id,
+              type: "purchase"
+            },
+            {
+              headers: {
+                Authorization:
+                  `Bearer ${token}`
+              }
+            }
+          );
+        }
+      } catch (interactionError) {
+        // The order was already successfully
+        // created, so don't treat this as an
+        // order failure.
+        console.error(
+          "Failed to record purchase interaction:",
+          interactionError
+        );
+      }
 
-      console.log(response.data);
+      // -----------------------------------------
+      // Order completed
+      // -----------------------------------------
 
+      console.log(
+        "Order response:",
+        response.data
+      );
+
+      alert(
+        "Order placed successfully!"
+      );
+
+      // Clear MongoDB cart
+      await clearCart();
+
+      // Go to My Orders
       navigate("/orders");
 
     } catch (error) {
@@ -83,12 +144,18 @@ const {
     }
   };
 
+  // -----------------------------------------
+  // Empty cart
+  // -----------------------------------------
+
   if (cartItems.length === 0) {
     return (
       <div className="checkout-container">
         <h1>Checkout</h1>
 
-        <p>Your cart is empty.</p>
+        <p>
+          Your cart is empty.
+        </p>
 
         <Link to="/products">
           Continue Shopping
@@ -99,6 +166,10 @@ const {
 
   return (
     <div className="checkout-container">
+
+      {/* ================================
+          CHECKOUT FORM
+      ================================= */}
 
       <div className="checkout-form-section">
 
@@ -159,9 +230,13 @@ const {
             required
           />
 
-          <h3>Payment Method</h3>
+          <h3>
+            Payment Method
+          </h3>
 
-          <p>Cash on Delivery</p>
+          <p>
+            Cash on Delivery
+          </p>
 
           {error && (
             <p className="error">
@@ -182,21 +257,30 @@ const {
 
       </div>
 
+      {/* ================================
+          ORDER SUMMARY
+      ================================= */}
+
       <div className="checkout-summary">
 
-        <h2>Order Summary</h2>
+        <h2>
+          Order Summary
+        </h2>
 
         {cartItems.map((item) => (
           <div
             className="checkout-item"
-            key={item._id}
+            key={item.product._id}
           >
             <p>
-              {item.name} × {item.quantity}
+              {item.name} ×{" "}
+              {item.quantity}
             </p>
 
             <p>
-              ₹{item.price * item.quantity}
+              ₹
+              {item.price *
+                item.quantity}
             </p>
           </div>
         ))}

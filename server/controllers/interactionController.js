@@ -16,6 +16,7 @@ const createInteraction = async (req, res) => {
       "purchase"
     ];
 
+    // Check interaction type
     if (!type) {
       return res.status(400).json({
         message: "Interaction type is required"
@@ -28,7 +29,7 @@ const createInteraction = async (req, res) => {
       });
     }
 
-    // Product is required for product-related interactions
+    // Product is required for product interactions
     const productRequiredTypes = [
       "view",
       "add_to_cart",
@@ -46,7 +47,7 @@ const createInteraction = async (req, res) => {
       });
     }
 
-    // Search query is required for search interactions
+    // Search query is required for searches
     if (
       type === "search" &&
       !searchQuery
@@ -57,22 +58,76 @@ const createInteraction = async (req, res) => {
       });
     }
 
-    const interaction =
-      await Interaction.create({
-        user: req.userId,
-        product: product || null,
-        type,
-        searchQuery:
-          searchQuery || ""
-      });
+    // -----------------------------------------
+    // Create a dedupe key for product views
+    // -----------------------------------------
 
-    res.status(201).json({
-      message:
-        "Interaction recorded successfully",
-      interaction
-    });
+    let dedupeKey;
+
+    if (type === "view") {
+      /*
+        Create a 5-second time bucket.
+
+        Example:
+
+        18:30:01.100
+        18:30:01.102
+
+        Both belong to the same bucket.
+
+        Therefore they get the same dedupeKey.
+      */
+
+      const timeBucket =
+        Math.floor(Date.now() / 5000);
+
+      dedupeKey =
+        `${req.userId}_${product}_${type}_${timeBucket}`;
+    }
+
+    // -----------------------------------------
+    // Create interaction
+    // -----------------------------------------
+
+    try {
+      const interaction =
+        await Interaction.create({
+          user: req.userId,
+          product: product || null,
+          type,
+          searchQuery:
+            searchQuery || "",
+          dedupeKey
+        });
+
+      return res.status(201).json({
+        message:
+          "Interaction recorded successfully",
+        interaction
+      });
+    } catch (error) {
+      // Duplicate dedupeKey
+      if (error.code === 11000) {
+        const existingInteraction =
+          await Interaction.findOne({
+            dedupeKey
+          });
+
+        return res.status(200).json({
+          message:
+            "Duplicate view ignored",
+          interaction:
+            existingInteraction
+        });
+      }
+
+      throw error;
+    }
   } catch (error) {
-    console.error(error);
+    console.error(
+      "Interaction error:",
+      error
+    );
 
     res.status(500).json({
       message:

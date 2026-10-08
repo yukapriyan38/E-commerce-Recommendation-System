@@ -53,71 +53,83 @@ export function CartProvider({ children }) {
   }, []);
 
   // Add product
-  const addToCart = async (product) => {
-    try {
-      const currentToken =
-        localStorage.getItem("token");
+ const addToCart = async (product) => {
+  try {
+    const currentToken =
+      localStorage.getItem("token");
 
-      if (!currentToken) {
-        alert("Please login first");
-        return;
-      }
-
-      const response = await API.post(
-        "/cart/add",
-        {
-          productId: product._id,
-          name: product.name,
-          price: product.price,
-          image: product.image
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${currentToken}`
-          }
-        }
-      );
-
-      setCartItems(
-        response.data.cart.items
-      );
-    } catch (error) {
-      console.error(error);
-
-      alert(
-        error.response?.data?.message ||
-        "Failed to add product to cart"
-      );
+    if (!currentToken) {
+      alert("Please login first");
+      return false;
     }
-  };
+
+    const response = await API.post(
+      "/cart/add",
+      {
+        productId: product._id,
+        name: product.name,
+        price: product.price,
+        image: product.image
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${currentToken}`
+        }
+      }
+    );
+
+    setCartItems(
+      response.data.cart.items
+    );
+
+    return true;
+  } catch (error) {
+    console.error(error);
+
+    alert(
+      error.response?.data?.message ||
+      "Failed to add product to cart"
+    );
+
+    return false;
+  }
+};
 
   // Remove product
-  const removeFromCart = async (productId) => {
-    try {
-      const currentToken =
-        localStorage.getItem("token");
+const removeFromCart = async (productId) => {
+  try {
+    const currentToken =
+      localStorage.getItem("token");
 
-      const response = await API.delete(
-        `/cart/${productId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${currentToken}`
-          }
-        }
-      );
-
-      setCartItems(
-        response.data.cart.items
-      );
-    } catch (error) {
-      console.error(error);
-
-      alert(
-        error.response?.data?.message ||
-        "Failed to remove product"
-      );
+    if (!currentToken) {
+      return false;
     }
-  };
+
+    const response = await API.delete(
+      `/cart/${productId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${currentToken}`
+        }
+      }
+    );
+
+    setCartItems(
+      response.data.cart.items
+    );
+
+    return true;
+  } catch (error) {
+    console.error(error);
+
+    alert(
+      error.response?.data?.message ||
+      "Failed to remove product"
+    );
+
+    return false;
+  }
+};
 
   // Increase quantity
   const increaseQuantity = async (productId) => {
