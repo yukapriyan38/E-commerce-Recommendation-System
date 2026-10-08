@@ -1,0 +1,37 @@
+name,category,brand,price,description,tags
+Wireless Headphones,Electronics,Sony,5999,"Wireless over-ear headphones with noise cancellation","wireless,audio,headphones,music"
+Smartphone,Electronics,Samsung,24999,"Android smartphone with high resolution display and powerful processor","mobile,android,smartphone,technology"
+Laptop,Electronics,HP,54999,"Powerful laptop suitable for work study and entertainment","laptop,computer,technology,work"
+Smart Watch,Electronics,Apple,32999,"Smart watch with fitness tracking and health features","watch,fitness,smart,technology"
+Bluetooth Speaker,Electronics,JBL,3999,"Portable wireless Bluetooth speaker with powerful sound","speaker,bluetooth,audio,music"
+
+Cotton T-Shirt,Clothing,Nike,1499,"Comfortable cotton t-shirt for everyday wear","tshirt,cotton,casual,clothing"
+Jeans,Clothing,Levis,2999,"Classic denim jeans for casual everyday use","jeans,denim,casual,clothing"
+Hoodie,Clothing,Adidas,2499,"Warm and comfortable hoodie for casual wear","hoodie,warm,casual,clothing"
+Sports Jacket,Clothing,Puma,3999,"Lightweight sports jacket suitable for outdoor activities","jacket,sports,outdoor,clothing"
+
+Running Shoes,Shoes,Nike,4999,"Lightweight running shoes designed for comfortable running","running,shoes,sports,fitness"
+Casual Sneakers,Shoes,Adidas,3499,"Stylish sneakers for everyday casual wear","sneakers,casual,shoes,fashion"
+Football Shoes,Shoes,Puma,4499,"Football shoes designed for excellent grip on the field","football,sports,shoes,fitness"
+Walking Shoes,Shoes,Skechers,3999,"Comfortable walking shoes for daily use","walking,shoes,comfort,fitness"
+
+Python Programming Book,Books,OReilly,2499,"Complete guide to Python programming for beginners","python,programming,coding,technology"
+Machine Learning Book,Books,Packt,2999,"Introduction to machine learning concepts and algorithms","machine learning,python,ai,programming"
+Web Development Book,Books,OReilly,2199,"Practical guide to modern web development","web,development,javascript,programming"
+Data Science Book,Books,Packt,2799,"Guide to data science statistics and machine learning","data science,python,machine learning,ai"
+
+Face Wash,Beauty,Neutrogena,699,"Gentle face wash for clean and healthy skin","skincare,face,beauty,cleaning"
+Moisturizer,Beauty,Nivea,599,"Daily moisturizing cream for hydrated skin","skincare,moisturizer,beauty,skin"
+Sunscreen,Beauty,Lakme,799,"SPF sunscreen for protection from sunlight","sunscreen,skincare,beauty,protection"
+Shampoo,Beauty,HeadAndShoulders,499,"Anti dandruff shampoo for healthy hair","hair,shampoo,beauty,care"
+
+Office Chair,Home,Ikea,8999,"Ergonomic office chair designed for comfortable work","chair,office,furniture,work"
+Table Lamp,Home,Philips,1299,"LED table lamp suitable for study and work","lamp,led,study,office"
+Coffee Maker,Home,Philips,4999,"Automatic coffee maker for preparing fresh coffee","coffee,kitchen,appliance,home"
+Bedside Table,Home,Ikea,3499,"Compact bedside table with storage space","table,furniture,bedroom,home"
+
+Cricket Bat,Sports,SS,3499,"Professional cricket bat suitable for training and matches","cricket,bat,sports,outdoor"
+Football,Sports,Nike,1999,"Durable football suitable for training and matches","football,sports,outdoor,game"
+Basketball,Sports,Spalding,2499,"Official size basketball for indoor and outdoor games","basketball,sports,game,outdoor"
+Tennis Racket,Sports,Wilson,5999,"Lightweight tennis racket for recreational and competitive play","tennis,racket,sports,game"
+Yoga Mat,Sports,Decathlon,999,"Non-slip yoga mat suitable for exercise and fitness","yoga,fitness,exercise,sports"
