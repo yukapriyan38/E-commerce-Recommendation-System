@@ -156,7 +156,7 @@ def get_recommendations(
 # Test
 if __name__ == "__main__":
 
-    product_name = "Cricket Bat"
+    product_name = "Wireless Bluetooth Headphones"
 
     recommendations = get_recommendations(
         product_name,

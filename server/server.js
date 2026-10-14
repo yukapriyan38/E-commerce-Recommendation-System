@@ -30,6 +30,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/interactions", interactionRoutes);
+app.use("/api/recommendations",require("./routes/recommendationRoutes"));
 
 
 // Test route
