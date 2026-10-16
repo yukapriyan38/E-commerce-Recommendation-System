@@ -109,13 +109,16 @@ def get_personalized_recommendations(user_id, limit=5):
 
         return [
             {
-                "id": str(row["_id"]),
-                "name": row["name"],
-                "category": row["category"],
-                "brand": row["brand"],
-                "price": float(row["price"]),
-                "score": 0.0,
-                "reason": "Popular product fallback"
+              
+    "id": str(row["_id"]),
+    "name": row["name"],
+    "category": row["category"],
+    "brand": row["brand"],
+    "price": float(row["price"]),
+    "rating": row.get("rating", "N/A"),
+    "image": row.get("image", ""),
+    "score": 0.0,
+    "reason": "Popular product fallback"
             }
             for _, row in fallback.iterrows()
         ]
@@ -176,13 +179,17 @@ def get_personalized_recommendations(user_id, limit=5):
 
         return [
             {
-                "id": str(row["_id"]),
-                "name": row["name"],
-                "category": row["category"],
-                "brand": row["brand"],
-                "price": float(row["price"]),
-                "score": 0.0,
-                "reason": "Popular product fallback"
+              {
+    "id": str(row["_id"]),
+    "name": row["name"],
+    "category": row["category"],
+    "brand": row["brand"],
+    "price": float(row["price"]),
+    "rating": row.get("rating", "N/A"),
+    "image": row.get("image", ""),
+    "score": 0.0,
+    "reason": "Popular product fallback"
+}
             }
             for _, row in fallback.iterrows()
         ]
@@ -218,13 +225,17 @@ def get_personalized_recommendations(user_id, limit=5):
             continue
 
         recommendations.append({
-            "id": product_id,
-            "name": row["name"],
-            "category": row["category"],
-            "brand": row["brand"],
-            "price": float(row["price"]),
-            "score": round(float(row["score"]), 4),
-            "reason": "Based on your activity"
+        
+    "id": product_id,
+    "name": row["name"],
+    "category": row["category"],
+    "brand": row["brand"],
+    "price": float(row["price"]),
+    "rating": row.get("rating", "N/A"),
+    "image": row.get("image", ""),
+    "score": round(float(row["score"]), 4),
+    "reason": "Based on your activity"
+
         })
 
         if len(recommendations) >= limit:

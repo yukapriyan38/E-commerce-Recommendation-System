@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import Recommendations from "../components/Recommendations";
 
 function Home() {
-  return (
-    <div>
+  const { user } = useAuth();
 
+  return (
+    <div className="home-page">
       <h1>Welcome to Our Store</h1>
 
       <p>
@@ -14,6 +17,7 @@ function Home() {
         Browse Products
       </Link>
 
+      {user && <Recommendations />}
     </div>
   );
 }
