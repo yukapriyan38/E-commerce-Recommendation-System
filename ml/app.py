@@ -1,43 +1,49 @@
-from flask import Flask, jsonify
+import logging
+
+import uvicorn
+from fastapi import FastAPI
+from fastapi.responses import JSONResponse
+
 from model.personalized_recommender import get_personalized_recommendations
 
-app = Flask(__name__)
+app = FastAPI()
+logger = logging.getLogger(__name__)
 
 
-@app.route("/", methods=["GET"])
+@app.get("/")
 def home():
-    return jsonify({
-        "message": "AI Recommendation ML API is running"
-    }), 200
+    return {"message": "AI Recommendation ML API is running"}
 
 
-@app.route("/recommendations/<user_id>", methods=["GET"])
+@app.get("/recommendations/{user_id}")
 def recommendations(user_id):
     try:
         results = get_personalized_recommendations(user_id)
 
-        return jsonify({
+        return {
             "userId": user_id,
             "count": len(results),
             "recommendations": results
-        }), 200
+        }
 
     except ValueError as error:
-        return jsonify({
-            "message": str(error)
-        }), 400
+        return JSONResponse(
+            status_code=400,
+            content={"message": str(error)}
+        )
 
     except Exception:
-        app.logger.exception("Recommendation API failed")
+        logger.exception("Recommendation API failed")
 
-        return jsonify({
-            "message": "Failed to generate recommendations"
-        }), 500
+        return JSONResponse(
+            status_code=500,
+            content={"message": "Failed to generate recommendations"}
+        )
 
 
 if __name__ == "__main__":
-    app.run(
+    uvicorn.run(
+        app,
         host="127.0.0.1",
         port=5001,
-        debug=False
     )

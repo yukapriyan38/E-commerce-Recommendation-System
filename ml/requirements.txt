@@ -1,5 +1,6 @@
 pandas
 scikit-learn
-flask
+fastapi
+uvicorn
 pymongo
 python-dotenv
